@@ -8,7 +8,7 @@ api Team - What do we do:
 
 ## api technology 101
 
-The repository structure consists of three subfolders dedicated to different areaas of api.
+The repository structure consists of three subfolders dedicated to different areas of api.
 
 To briefly explain the structure:
 
