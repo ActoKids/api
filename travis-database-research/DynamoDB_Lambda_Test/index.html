@@ -1,0 +1,53 @@
+<!-- To see this app open the page in a browser and then open the developer tools to view the console. -->
+<!-- Issues: the postMessage method should send back a result of the added data, CORS here is working
+however I don't believe this is the safest way to implement it but it is beyond my current knowledge -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lambda DynamoDB Demo</title>
+    <script>
+
+        // this method is for posting a new message to dynamodb
+        // the message is always: "Travis was here on:" + new Date()
+        // for success there is only a success message, however this should be changed to reflect
+        //   the new message that was posted in case it is needed
+        function postMessage() {
+            const ENDPOINT = '***************************';
+            fetch(ENDPOINT, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: new Headers(),
+                body: JSON.stringify({name: "Travis was here on:" + new Date()})
+            }).then(data => console.log(JSON.stringify("POST was a success!"))) // JSON-string from `response.json()` call
+            .catch(error => console.error(error));   
+        }
+
+        // this method gets all messages from dynamodb
+        // the result is logged to the console
+        function getLatest() {
+            const ENDPOINT = '***************************';
+            fetch(ENDPOINT, {mode: 'cors'})
+            .then( res => res.json() )
+            .then( myJson => {
+                console.log(myJson);
+               
+            })
+            .catch(err => console.log(err));   
+        }
+        
+        
+    </script>
+</head>
+<body>
+<h1>This is a something...</h1>
+<h2>Messages can be viewed in the browser console.</h2>
+<h3 id="demo">Click "Get here!" to see when Travis was here!</h3>
+<h3 id="date">Click "POST here!" when Travis is here!</h3>
+<button onclick="postMessage()">POST here!</button>
+<button onclick="getLatest()">GET here!</button>
+    
+</body>
+</html>
