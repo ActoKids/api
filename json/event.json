@@ -5,7 +5,7 @@
              “name”: “this is the short-name for the event, e.g., Fun with Yoga, Soccer, Art Walk”,
              “activity_type”: “this is an activity type, event title, based on activity filter including Outdoors & Nature, Music, Art, Museum, Sports, Zoo, Camp, Other for this event”,		
              “description”: “This is a long description of the event being held”,
-             “org_name”: “this is the organization name holding the event”,
+             “organization_name”: “this is the organization name holding the event”,
              “location_name”: “this is the name of the location where the event is being held”,
              “location_address”: “this is the street address, city, state & zip for the event being held”,
              “contact_name”: “this is the contact name for the event”,
@@ -19,5 +19,7 @@
              “min_age”: “this is the minimum age of the event participant”,
              “max_age”: “this is the maximum age of the event participant”, 
              “disability_types”: “this is a list of the disability types based on the filters including Cognitive, Sensory, Vision, Mobility, Hearing, Wheelchair bathrooms, adaptive equipment, targeted-available for this event”,
-           }
+             "status":  "pending approval, approved",
+             "approver": "this is the name of the admin that approved the event"
+            }
 }
