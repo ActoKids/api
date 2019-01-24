@@ -11,7 +11,7 @@
              "contact_name": "this is the contact name for the event",
              "contact_phone": "this is the event contacts phone number",
              "contact_email": "this is the event contacts email address",
-             "start_date_time": "event date and start time";
+             "start_date_time": "event date and start time",
              "end_date_time": "event to time in military time timestamp",
              "frequency": "one time, versus reoccurring weekly monthly",
              "cost": "this is the cost of the event",
