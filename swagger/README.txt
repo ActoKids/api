@@ -1,1 +1,1 @@
-EP diagram wiki: test
+EP diagram wiki: https://github.com/ActoKids/api/wiki/EP-Diagram
