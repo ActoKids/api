@@ -1,0 +1,21 @@
+GET
+curl https://86qw6wvrh2.execute-api.us-west-2.amazonaws.com/api/messages
+
+
+DELETE message: add an id from the GET request where the XXXXXX are
+curl -v -H "Content-Type:application/json" -X DELETE https://86qw6wvrh2.execute-api.us-west-2.amazonaws.com/api/DeleteMessage -d '{"id":"XXXXXXXXXXXXXXX"}'
+
+
+For this week I looked into using Lambda to delete an item from a DynamoDB table.  The above curl examples are to show this working.  The first get request will get all items from which you can take an id number and use it in the second curl example and delete that item.  To make sure it was deleted just call the first curl example again.
+
+For this demo to work I needed a Role for DynamoDB with a Inline Policy of "DelteItem".  This role must be assigned to the Lambda function so it has permission to delete items from a DynamoDB table.
+
+The DynamoDB table called Messages has items with an "ID" property and a "Message" property like so:
+    {
+        "ID": "0-2345-11e9-89b9-ebe045d5c59a",
+        "Message": "Some text message"
+    }
+
+For deleting one of these Message items you only need the ID.  For our case an example of this could be if we give "events" a unique uid as their primary key, then if and when they are denied completely they could be deleted.  
+
+If you want to see the code for the Lambda functions I have stored them for reference here -> https://github.com/ActoKids/api/tree/travis_feature/db_research

@@ -9,26 +9,26 @@ however I don't believe this is the safest way to implement it but it is beyond 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Lambda DynamoDB Demo</title>
     <script>
-
+        
         // this method is for posting a new message to dynamodb
         // the message is always: "Travis was here on:" + new Date()
         // for success there is only a success message, however this should be changed to reflect
         //   the new message that was posted in case it is needed
         function postMessage() {
-            const ENDPOINT = '***************************';
+            const ENDPOINT = '***********************************';
             fetch(ENDPOINT, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: new Headers(),
                 body: JSON.stringify({name: "Travis was here on:" + new Date()})
-            }).then(data => console.log(JSON.stringify("POST was a success!"))) // JSON-string from `response.json()` call
+            }).then(data => console.log(data)) // JSON-string from `response.json()` call
             .catch(error => console.error(error));   
         }
 
         // this method gets all messages from dynamodb
         // the result is logged to the console
         function getLatest() {
-            const ENDPOINT = '***************************';
+            const ENDPOINT = '*****************************************';
             fetch(ENDPOINT, {mode: 'cors'})
             .then( res => res.json() )
             .then( myJson => {
@@ -36,6 +36,23 @@ however I don't believe this is the safest way to implement it but it is beyond 
                
             })
             .catch(err => console.log(err));   
+        }
+
+        // this method deletes a message by its id property
+        function deleteMessage() {
+            const itemId = document.getElementById('id').value;
+            const ENDPOINT = "***************************************************";
+            fetch(ENDPOINT, {
+                method: 'DELETE',
+                mode: 'cors',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: itemId})
+            })
+            .then(data => console.log(data)) // JSON-string from `response.json()` call
+            .catch(error => console.error(error)); 
+            
+            document.getElementById('id').value = "";
+            //console.log(document.getElementById("id").value);
         }
         
         
@@ -48,6 +65,11 @@ however I don't believe this is the safest way to implement it but it is beyond 
 <h3 id="date">Click "POST here!" when Travis is here!</h3>
 <button onclick="postMessage()">POST here!</button>
 <button onclick="getLatest()">GET here!</button>
+ <p>Message Id:
+<input type="text" id="id" name="id"><button onclick="deleteMessage()">DELETE here!</button>
+</p>
+
+
     
 </body>
 </html>
