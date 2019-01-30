@@ -1,5 +1,5 @@
 GET
-curl https://86qw6wvrh2.execute-api.us-west-2.amazonaws.com/api/messages
+curl -X GET https://86qw6wvrh2.execute-api.us-west-2.amazonaws.com/api/messages
 
 
 DELETE message: add an id from the GET request where the XXXXXX are
