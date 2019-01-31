@@ -4,17 +4,16 @@ info:
   description: This Swagger file describes the ActoKids API for accessible events.
   contact:
     name: API Team
-    email: apiteam@actokids.com
-    url: 'http://www.actokids.com'
+    email: apiteam@actokids.org
+    url: 'https://actokids.com'
   version: 1.0.0
-host: api.actokids.com
+host: api.actokids.org
 basePath: /v1
 tags:
   - name: event
     description: Event details
 schemes:
   - https
-  - http
 paths:
   /event:
     post:
