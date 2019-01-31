@@ -420,6 +420,7 @@ definitions:
           - Daily
           - Weekly
           - Monthly
+        default: "Once"
       cost:
         type: string
         maxLength: 10
@@ -454,7 +455,9 @@ definitions:
         enum:
           - Pending
           - Approved
+          - Cancelled
           - Declined
+        default: "Pending"
       approver:
         type: string
         maxLength: 30
