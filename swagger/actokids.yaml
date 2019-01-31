@@ -470,6 +470,7 @@ definitions:
       name: Event
     required:
       - id
+      - event_name
       - org_name
       - location_address
       - start_date_time
