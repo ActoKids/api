@@ -5,7 +5,7 @@ info:
   contact:
     name: API Team
     email: apiteam@actokids.org
-    url: 'https://actokids.com'
+    url: 'https://actokids.org'
   version: 1.0.0
 host: api.actokids.org
 basePath: /v1
