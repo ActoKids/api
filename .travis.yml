@@ -3,8 +3,21 @@ node_js:
   - "iojs"
   - "7"
 before_install:
-  - npm i -g npm@version-number
+  - npm i -g npm@7
+install:
+  - npm install aws-sdk
+script: 
+  npm lambda/post.js
 branches:
   only: 
   - dev
   - prod
+deploy:
+  provider: lambda
+  role: arn:aws:iam::061431082068:role/NSC2019_Lambda-S2-and-Dynamo-Full
+  function_name: "api_post_method"
+  region: "us-east-2"
+  handler_name: "handler"
+  runtime: "nodejs7"
+  on:
+    branch: dev
