@@ -1,11 +1,10 @@
 language: node_js
 node_js:
-  - "iojs"
   - "7"
 install:
   - npm install aws-sdk
 script: 
-  npm lambda/post.js
+  npm test lambda/post.js
 branches:
   only: 
   - dev
