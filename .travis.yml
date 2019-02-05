@@ -1,7 +1,6 @@
 language: node_js
 node_js:
   - "7"
-before
 install:
   - npm install npm@latest -g
   - npm install aws-sdk
