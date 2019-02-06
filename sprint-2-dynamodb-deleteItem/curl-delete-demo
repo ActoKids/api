@@ -1,8 +1,6 @@
 
 DELETE Example:
-curl -v -H "Content-Type:application/json" -X DELETE https://utm0eolzl6.execute-api.us-west-2.amazonaws.com/v1/events/{eventID} -d '{"id":"1", "approved": "approved"}'
-
-The "id" is the Primary Key and the "approved" is the Sort Key.
+curl -v -H "Content-Type:application/json" -X DELETE https://utm0eolzl6.execute-api.us-west-2.amazonaws.com/v1/events/1
 
 Deleting works and returns a status code 200 along with the deleted output for the user.  These brings up the question, what to return to the client upon success?  For failure there are three responses in the Swagger file I have failed to implement as of yet.  These are 400 for an invalid id, 404 for an event not found, and 500 for db connection problems.  Last, /v1/event/{eventID} is for DELETE, GET, and PUT.  So I need to find the proper way to test for each type of call. 
 
