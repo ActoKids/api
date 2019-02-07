@@ -1,7 +1,8 @@
 language: node_js
 node_js:
-  - "7"
+  - "8.10"
 install:
+  - npm install npm@latest -g
   - npm install aws-sdk
 script: 
   npm test lambda/post.js
@@ -15,6 +16,6 @@ deploy:
   function_name: "api_post_method"
   region: "us-east-2"
   handler_name: "handler"
-  runtime: "nodejs7"
+  runtime: "nodejs8.10"
   on:
     branch: dev

@@ -1,0 +1,20 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "[![Build Status][travis-image]][travis]",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ActoKids/api.git"
+  },
+  "keywords": [],
+  "author": "Betelhem",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ActoKids/api/issues"
+  },
+  "homepage": "https://github.com/ActoKids/api#readme"
+}
