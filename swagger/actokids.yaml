@@ -10,7 +10,7 @@ info:
 host: api.actokids.org
 basePath: /v1
 tags:
-  - name: event
+  - name: Events
     description: Event details
 schemes:
   - https
