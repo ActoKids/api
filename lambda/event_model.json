@@ -3,21 +3,17 @@
     "title": "EventsModel",
     "type": "object",
     "required": [
-        "event_id",
         "user_name",
         "event_name", 
         "description", 
         "org_name",
         "location_address",
         "start_date_time",
-        "cost",
-        "event_status",
-        "approver",
-        "created_timestamp"
+        "cost"
     ],
     "properties": {
         "event_id": {
-            "type": "number"
+            "type": "string"
         },
         "user_name": { 
             "type": "string",
@@ -26,6 +22,9 @@
         "event_name": {
             "type": "string",
             "maxLength": 50
+        },
+        "event_link": {
+            "type": "string"
         },
         "activity_type": {
             "type": "string",
@@ -72,8 +71,9 @@
             "default": "Once"
         },
         "cost": {
-            "type": "string",
-            "maxLength": 10
+            "type": "number",
+            "format": "double",
+            "minimum": 0.00
         }, 
         "picture_url": {
             "type": "string"
@@ -105,7 +105,8 @@
             "maxLength": 30
         },
         "created_timestamp": {
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
         }
     }
 }
