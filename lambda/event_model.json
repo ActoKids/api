@@ -60,10 +60,12 @@
             "maxLength": 30
         },
         "start_date_time": {
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
         },
         "end_date_time": {
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
         },
         "frequency": {
             "type": "string",
