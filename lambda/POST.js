@@ -4,11 +4,9 @@ console.log('Loading function');
 //Load required items and create DynamoDB doc client
 const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2'});
-//const uuid = require('uuid');
+const uuid = require('uuid');
 
-//set variable for new uuid to be used as the event_id
-//uuid not currently in use - need to re-org Swagger/API structure
-//var nextId = uuid();
+var now = (new Date()).toJSON();
 
 //create handler function
 exports.handler = function(event, context, callback) {
@@ -22,14 +20,14 @@ exports.handler = function(event, context, callback) {
         //GET request - currently implemented for a specific table item. It works, but needs refinement
         //For this endpoint it should be pulling the entire list of event objects    
         case 'GET':
+            console.log("GET requested");
             //set params to pass to the .get method of the doc client
             var params = {
                 //table name in DynamoDB to get data from
-                TableName: 'ActoKidsEvents',
+                TableName: 'Sprint3_POST_updates',
                 //key(s) for which event to retrieve
                 Key: {
-                    "event_id": 7,
-                    "event_status": "Pending"
+                    "event_id": "5c700410-2eb4-4460-b0cd-25779af4d89d"
                 }
             }
             
@@ -53,13 +51,20 @@ exports.handler = function(event, context, callback) {
         //POST request - currently implemented to pass API Gateway model object through to DynamoDB
         //Could probably use some refinement
         case 'POST':
-            //Not yet implemented. Current event model uses a number type, but uuid is a string.
-            //event['body-json'].event_id = nextId;
+            console.log("POST requested");
+            //set variable for new uuid to be used as the event_id
+            var nextId = uuid();
+            console.log(`Setting new event ID: ${nextId}`);
+            //set event_id to the new uuid
+            event['body-json'].event_id = nextId;
+            console.log(`Setting DB creation timestamp: ${now}`);
+            //set the created_timestamp to current time
+            event['body-json'].created_timestamp = now;
             
             //set params to pass to the .put method of the doc client
             var params = {
                 //table name in DynamoDB to put data to
-                TableName: 'ActoKidsEvents',
+                TableName: 'Sprint3_POST_updates',
                 //set the item to the JSON object passed through the API Gateway
                 Item: event['body-json']
             };
@@ -75,6 +80,14 @@ exports.handler = function(event, context, callback) {
                 }
             });
             
+            //define response object
+            var response = {
+                event_id: nextId
+            };
+            
+            //send event_id back to client
+            callback(null, response);
+
             break;
         
         //default for switch cases; currently not implemented
