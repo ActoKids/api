@@ -39,26 +39,34 @@ exports.handler = async (event, context) => {
 	        "ReturnValues": "ALL_OLD"
 		};
 		
-		// delete item
-	    const data = await documentClient.delete(params).promise();
-	    console.log("DATA: ", data);
-	    let code;
-	    // check if nothing was returned to cause a 404 response, item not found in db
-	    if(Object.entries(data).length === 0) {
-	    	code = 404;
+		let code;
+		try {
+			// delete item
+		    const data = await documentClient.delete(params).promise();
+		    console.log("DATA: ", data);
+		    
+		    // check if nothing was returned to cause a 404 response, item not found in db
+		    if(Object.entries(data).length === 0) {
+		    	code = 404;
+		    }
+		    else {
+		    	code = 200;
+		    }
+			 
+		} catch(err) {
+			code = 500;
+			console.log("Error: ", err);
+		}
+		
+		// if you want a mesage for humans add body after headers
+		var response = {
+			statusCode: code,
+			headers: {
+			    "Access-Control-Allow-Origin": "*"
+			},
 	    }
-	    else {
-	    	code = 200;
-	    }
-	    // if you want a mesage for humans add body after headers
-	    var response = {
-		    statusCode: code,
-		    headers: {
-		        "Access-Control-Allow-Origin": "*"
-		    },
-		 }
-		 
-		return response;
+	    
+	    return response;
 		
    } else if (httpMethod === 'GET') {
       // not used yet
