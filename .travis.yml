@@ -21,7 +21,34 @@ jobs:
     runtime: "nodejs8.10"
   - stage: deploy ping.js to dev env
     script: npm test lambda/ping.js
+    deploy:
+    provider: lambda
+    role: $AWS_LAMBDA_ROLE_ARN
+    function_name: "ak-api-jonathan-lambda"
+    region: "us-east-2"
+    handler_name: "handler"
+    runtime: "nodejs8.10"
+    on:
+      branch: dev
   - stage: deploy index.js to dev env
     script: npm test sprint3/events/index.js
+    deploy:
+    provider: lambda
+    role: $AWS_LAMBDA_ROLE_ARN
+    function_name: "ak-api-travis-lambda"
+    region: "us-east-2"
+    handler_name: "handler"
+    runtime: "nodejs8.10"
+    on:
+      branch: dev
   - stage: deploy index.js(zach) to dev env
     script: npm test api/lambda/getEventById/index.js
+    deploy:
+    provider: lambda
+    role: $AWS_LAMBDA_ROLE_ARN
+    function_name: "ak-api-zach-lambda"
+    region: "us-east-2"
+    handler_name: "handler"
+    runtime: "nodejs8.10"
+    on:
+      branch: dev
