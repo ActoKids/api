@@ -1,60 +1,56 @@
---- 
-branch: dev
-branches: 
-  only: 
-    - dev
-    - prod
-install: 
-  - "npm install npm@latest -g"
-  - "npm install aws-sdk"
-jobs: 
-  - 
-    deploy: ~
-    function_name: ak-api-alex-lambda
-    handler_name: handler
-    provider: lambda
-    region: us-east-2
-    role: $AWS_LAMBDA_ROLE_ARN
-    runtime: nodejs8.10
-    script: "npm test lambda/post.js"
-    stage: "deploy post.js to dev env"
-    true: 
-      branch: dev
-  - 
-    deploy: ~
-    function_name: ak-api-jonathan-lambda
-    handler_name: handler
-    provider: lambda
-    region: us-east-2
-    role: $AWS_LAMBDA_ROLE_ARN
-    runtime: nodejs8.10
-    script: "npm test lambda/ping.js"
-    stage: "deploy ping.js to dev env"
-    true: 
-      branch: dev
-  - 
-    deploy: ~
-    function_name: ak-api-travis-lambda
-    handler_name: handler
-    provider: lambda
-    region: us-east-2
-    role: $AWS_LAMBDA_ROLE_ARN
-    runtime: nodejs8.10
-    script: "npm test sprint3/events/index.js"
-    stage: "deploy index.js to dev env"
-    true: 
-      branch: dev
-  - 
-    deploy: ~
-    function_name: ak-api-zach-lambda
-    handler_name: handler
-    provider: lambda
-    region: us-east-2
-    role: $AWS_LAMBDA_ROLE_ARN
-    runtime: nodejs8.10
-    script: "npm test api/lambda/getEventById/index.js"
-    stage: "deploy index.js(zach) to dev env"
-    true: ~
 language: node_js
-node_js: 
+node_js:
   - "8.10"
+install:
+  - npm install npm@latest -g
+  - npm install aws-sdk
+branches:
+  only: 
+  - dev
+  - prod
+jobs:
+  - stage: deploy post.js to dev env
+    script: npm test lambda/post.js
+    deploy:
+    provider: lambda
+    role: $AWS_LAMBDA_ROLE_ARN
+    function_name: "ak-api-alex-lambda"
+    region: "us-east-2"
+    handler_name: "handler"
+    runtime: "nodejs8.10"
+    on:
+      branch: dev
+  - stage: deploy ping.js to dev env
+    script: npm test lambda/ping.js
+    deploy:
+    provider: lambda
+    role: $AWS_LAMBDA_ROLE_ARN
+    function_name: "ak-api-jonathan-lambda"
+    region: "us-east-2"
+    handler_name: "handler"
+    runtime: "nodejs8.10"
+    on:
+      branch: dev
+  - stage: deploy index.js to dev env
+    script: npm test sprint3/events/index.js
+    deploy:
+    provider: lambda
+    role: $AWS_LAMBDA_ROLE_ARN
+    function_name: "ak-api-travis-lambda"
+    region: "us-east-2"
+    handler_name: "handler"
+    runtime: "nodejs8.10"
+    on:
+      branch: dev
+  - stage: deploy index.js(zach) to dev env
+    script: npm test api/lambda/getEventById/index.js
+    deploy:
+    provider: lambda
+    role: $AWS_LAMBDA_ROLE_ARN
+    function_name: "ak-api-zach-lambda"
+    region: "us-east-2"
+    handler_name: "handler"
+    runtime: "nodejs8.10"
+    on:
+      branch: dev
+  
