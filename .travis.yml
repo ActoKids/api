@@ -19,6 +19,8 @@ jobs:
     region: "us-east-2"
     handler_name: "handler"
     runtime: "nodejs8.10"
+    on:
+      branch: dev
   - stage: deploy ping.js to dev env
     script: npm test lambda/ping.js
     deploy:
