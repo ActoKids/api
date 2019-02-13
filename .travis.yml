@@ -9,6 +9,7 @@ branches:
   - dev
   - prod
 jobs:
+include:
   - stage: deploy post.js to dev env
     script: npm test lambda/post.js
     deploy:
