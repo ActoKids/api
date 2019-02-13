@@ -12,3 +12,9 @@ jobs:
   include:
   - stage: deploy post.js to dev env
     script: npm test lambda/post.js
+  - stage: deploy ping.js to dev env
+    script: npm test lambda/ping.js
+  - stage: deploy index.js to dev env
+    script: npm test sprint3/events/index.js
+  - stage: deploy index.js(zach) to dev env
+    script: npm test api/lambda/getEventById/index.js
