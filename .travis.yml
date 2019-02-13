@@ -12,6 +12,13 @@ jobs:
   include:
   - stage: deploy post.js to dev env
     script: npm test lambda/post.js
+    deploy:
+    provider: lambda
+    role: $AWS_LAMBDA_ROLE_ARN
+    function_name: "ak-api-alex-lambda"
+    region: "us-east-2"
+    handler_name: "handler"
+    runtime: "nodejs8.10"
   - stage: deploy ping.js to dev env
     script: npm test lambda/ping.js
   - stage: deploy index.js to dev env
