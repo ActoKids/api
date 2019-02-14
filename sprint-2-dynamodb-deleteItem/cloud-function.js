@@ -1,20 +1,18 @@
 const AWS = require('aws-sdk'),
 	documentClient = new AWS.DynamoDB.DocumentClient(); 
 
-// lambda function that deletes an Events db item by a given primary key
+// lambda function that deletes an Events db item by a given primary key 
 exports.handler = function(event, context, callback){
     
-    // this stores the input given by the caller
+    // this stores the input given by the caller, the ID needed to delete the item in dynamodb
     const ID = event['params']['path'].eventID;
-    // this stores the http method used by the caller
+    // this stores the http method used by the caller, eventually this function will handle
+    // DELTE, GET, and PUT
     const httpMethod = event.context['http-method'];
     
-    //console.log(event);
-    //console.log("input id: " + ID);
-    //console.log("http-method: " + event.context['http-method']);
-    
    
-   // NOT COMPLETE: THIS ENDS UP IN BODY OF RESPONSE
+   // NOT COMPLETE: THIS ENDS UP IN BODY OF RESPONSE,
+   // version from sprint 2 will fix and return response appropriately
    // handles error message 
    const done = (err, res) => callback(null, {
         statusCode: err ? '400' : '200',
@@ -28,15 +26,13 @@ exports.handler = function(event, context, callback){
    // determine what http request is made to handle it appropriately 
    // only using DELETE now but will need the others soon
    if (httpMethod === 'DELETE') {
-      //console.log(event.context['http-method'] + " here");
       deleteEvent(ID, done);
    } else if (httpMethod === 'GET') {
-      // 
+      // not used yet
    } else if (httpMethod === 'PUT') {
-      //
+      // not used yet
    }
    
-   return { event, ID};
 };
 
 // helper method to delete an item from the Events db
@@ -50,7 +46,7 @@ function deleteEvent(id, done) {
 		"ConditionExpression": "attribute_not_exists(Replies)",
         "ReturnValues": "ALL_OLD"
 	};
-	
+	// dynamoDB function that deletes item using params
 	documentClient.delete(params, done);
 	
 }
