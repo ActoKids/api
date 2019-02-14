@@ -4,7 +4,8 @@ const AWS = require('aws-sdk'),
 // lambda function that deletes an Events db item by a given primary key 
 exports.handler = function(event, context, callback){
     
-    // this stores the input given by the caller, the ID needed to delete the item in dynamodb
+    // this stores the input given by the caller, the parameter is
+    // the ID primary key needed to delete the item in dynamodb
     const ID = event['params']['path'].eventID;
     // this stores the http method used by the caller, eventually this function will handle
     // DELTE, GET, and PUT
@@ -39,7 +40,10 @@ exports.handler = function(event, context, callback){
 function deleteEvent(id, done) {
     // params contains the table name and primary key to delete an item given the id 
     var params = {
+        // TableName: this is the name of the Table in Dynamodb
         TableName : "Events",
+        // Key object: this is the primary key that was given as a parameter by the api call and
+        // represents and event-id for an event
         Key : {
 			"eventID" : id
 		},
