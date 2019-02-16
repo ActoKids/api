@@ -12,4 +12,6 @@ deploy:
     handler_name: "handler"
     runtime: "nodejs8.10"
     on:
-      branch: dev
+      branch: 
+      - dev
+      - feature/travis_ci_setup
