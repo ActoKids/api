@@ -51,7 +51,7 @@ exports.handler = async (event, context) => {
 		try {
 			// delete method is needed to delete items from a Dynamodb table
 		    const data = await documentClient.delete(params).promise();
-		    console.log("DATA: ", data);
+		    
 		    
 		    // check if nothing was returned to cause a 404 response, item not found in db 
 		    if(Object.entries(data).length === 0 && data.constructor === Object) {
