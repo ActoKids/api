@@ -14,4 +14,3 @@ deploy:
     on:
       branch: 
       - dev
-      - feature/travis_ci_setup
