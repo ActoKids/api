@@ -2,7 +2,7 @@ console.log('Starting ActoKids Lambda function');
 //CloudWatch log - This log tells us the Lambda function successfully triggered.
 
 const AWS = require('aws-sdk');
-const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2'});
+const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-east-2'});
 const uuid = require('uuid');
 
 //Variable needed to pass the timestamp for when the event is created in DynamoDB
@@ -40,9 +40,9 @@ exports.handler = function(event, context, callback) {
             
             var params = {
                 //TableName reference required for DynamoDB to know which table to get data from
-                TableName: 'Sprint3_POST_updates',
+                TableName: 'ak-api-test-dynamo',
                 Key: {
-                    "event_id": "5c700410-2eb4-4460-b0cd-25779af4d89d"
+                    "event_id": "ffc3e039-3766-4cb5-a046-a6f5f88a6ab8"
                 }
             };
     
@@ -115,7 +115,7 @@ exports.handler = function(event, context, callback) {
             
             //DynamoDB needs to know which table to update and how the data is structured
             var params = {
-                TableName: 'Sprint3_POST_updates',
+                TableName: 'ak-api-test-dynamo',
                 Item: event['body-json']
             };
             
@@ -158,11 +158,11 @@ exports.handler = function(event, context, callback) {
                 invalid and should end up here.
             */
             //CloudWatch log - Should not have ended up here; log the invalid request
-            console.error(`HTTP method requested (${httpMethod}) is invalid. Defaul case executed.`);
-            
+            console.error(`HTTP method requested (${httpMethod}) is invalid. Default case executed.`);
+
             let defaultMessage = {
                 statusCode: 400,
-                body: "¯\_(ツ)_/¯ - Don't know how you got here. API Gateway should have stopped you!"
+                body: `¯\_(ツ)_/¯ - Don't know how you got here. API Gateway should have stopped you!`
             };
             
             callback(null, defaultMessage);
