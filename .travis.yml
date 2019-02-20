@@ -14,12 +14,3 @@ deploy:
     on:
       branch: 
       - dev
-    provider: lambda
-    role: $AWS_LAMBDA_ROLE_ARN
-    function_name: "ak-api-prod-lambda"
-    region: "us-east-2"
-    handler_name: "handler"
-    runtime: "nodejs8.10"
-    on:
-      branch: 
-      - prod
