@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "EventsModel",
+    "title": "EventModel",
     "type": "object",
     "required": [
         "user_name",
@@ -13,7 +13,8 @@
     ],
     "properties": {
         "event_id": {
-            "type": "string"
+            "type": "string",
+            "default": "temp"
         },
         "user_name": { 
             "type": "string",
@@ -28,8 +29,7 @@
         },
         "activity_type": {
             "type": "string",
-            "enum": ["Outdoors & Nature", "Music", "Art", "Museum", "Sports", "Zoo", "Camp", "Other"],
-            "default": "Other"
+            "enum": ["Outdoors & Nature", "Music", "Art", "Museum", "Sports", "Zoo", "Camp", "Other"]
         },
         "description": { 
             "type": "string",
@@ -108,7 +108,8 @@
         },
         "created_timestamp": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "default": "2019-02-10T12:00:00.000Z"
         }
     }
 }
