@@ -1,6 +1,5 @@
 const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-east-2'});
-const uuid = require('uuid');
 
 /*
     handler is the function that AWS Lambda invokes when triggered by API Gateway. handler runs in response to 
@@ -10,6 +9,7 @@ exports.handler = async (event, context, callback) => {
     //path to the resource, either '/events', '/events/eventsFilter', or '/ping'
     const resourcePath = event.context["resource-path"];
     
+    //the http method (e.g. GET, POST, etc.) used to reach some resource
     const httpMethod = event.context['http-method'];
     
     //initialize variable to store db connection and search parameters
@@ -59,18 +59,19 @@ exports.handler = async (event, context, callback) => {
                 'org_name'          : true
             };
             
-            var invalidParams = false; //this variable does nothing at the moment.
+            //this variable does nothing at the moment, but may be needed later
+            var invalidParams = false; 
             
             //initialize variable to store invalid search parameter, if found
             var invalidParam = "";
             
-            //object containing quert string parameters, attached to event object by API Gateway
+            //object containing query string parameters, attached to event object by API Gateway
             var qs = event.params.querystring;
             
-            //initialize varible to store filterExpression string to pass to the db
+            //initialize variable to store filterExpression string to pass to the db
             var filterExpression = "";
             
-            //loop through query string parameters and check against dictionary of accpeptable parameters
+            //loop through query string parameters and check against dictionary of acceptable parameters
             try {
                 for(let key in qs) {
                     //if query string parameter is not in the dictionary, throw error
@@ -80,28 +81,27 @@ exports.handler = async (event, context, callback) => {
                         throw new Error();
                     }
                     /*
-                        filter expression is of the form, AttributeName = :AttributeValueKey
-                        multiple paramters are joined with 'and'.
+                        Construct a filter expression to filter based on some query string parameter matching a db item attribute.
+                        When supplied as a parameter to a table scan or query, the filter expression must be a string, with keys to 
+                        attribute values flagged with a colon -- e.g AttributeName = :AttributeValueKey
+                        Here, multiple paramters are joined with 'and'.
                     */
                     (filterExpression) ? filterExpression += `and :${key} = ${key} ` :  filterExpression += `:${key} = ${key} `;
                 }
             } catch (error) {
                 error.name = "Query error";
                 error.message = `${invalidParam} is not a valid search parameter.`;
-                console.log(`${invalidParam} is not a valid search parameter.`);
+                console.log(`Attempt to use an invalid search parameter, '${invalidParam}'`);
                 callback(null, error);
                 break;
             }
             
-            console.log("You shouldn't see this message if there was an invalid search parameter");
+            console.log("Search parameters deemed acceptable");
             
             params = {
                 TableName: 'ak-api-jonathan-dynamodb',
-                /*
-                    FilterExpression must be a string. Keys to AttributeValues are flagged with a colon.
-                    ExpressionAttributeValues object defines those Keys and their values
-                */
                 FilterExpression: filterExpression,
+                //ExpressionAttributeValues object defines those Keys and their values.
                 ExpressionAttributeValues: {
                     ':activity_type'     : qs.activity_type,
                     ':approver'          : qs.approver,
