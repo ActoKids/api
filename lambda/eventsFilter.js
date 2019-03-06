@@ -6,7 +6,7 @@ const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-east-2'});
     every trigger, but code outside of handler (if any) runs only when the execution environment is created. 
 */
 exports.handler = async (event, context, callback) => {
-    console.log("Entered handler function; checking switch cases...")
+    console.log("Entered handler function; checking switch cases...");
     
     //path to the resource, either '/events', '/events/eventsFilter', or '/ping'
     const resourcePath = event.context["resource-path"];
@@ -94,7 +94,6 @@ exports.handler = async (event, context, callback) => {
             } catch (error) {
                 error.name = "Query error";
                 error.message = `${invalidParam} is not a valid search parameter.`;
-                console.
                 console.error(`Error caught! Attempted to use an invalid search parameter, '${invalidParam}'`);
                 callback(null, error);
                 break;
