@@ -6,6 +6,8 @@ const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-east-2'});
     every trigger, but code outside of handler (if any) runs only when the execution environment is created. 
 */
 exports.handler = async (event, context, callback) => {
+    console.log("Entered handler function; checking switch cases...")
+    
     //path to the resource, either '/events', '/events/eventsFilter', or '/ping'
     const resourcePath = event.context["resource-path"];
     
@@ -19,25 +21,26 @@ exports.handler = async (event, context, callback) => {
     switch(resourcePath) {
         // GET request on '/events' should return all events
         case '/events':
+            console.log("Hit the '/events' route");
             params = {
                 TableName: 'ak-api-jonathan-dynamodb',
             };
-            
             try {
-                
+                //scan to return all items
                 const items = await docClient.scan(params).promise();
+                console.log("Data received from DynamoDB");
                 callback(null, items);
                 break;
             } catch (error) {
-                console.log("Error retrieving data from db");
+                console.error("Error retrieving data from db");
                 callback(error, null);
                 break;
             }
         
         // GET request on '/events/eventsFilter' returns events meeting search criteria from query string parameters
         case '/events/eventsFilter':
-            
-            //define dictionary of acceptable parameters
+            console.log("Hit the '/events/eventsFilter' route");
+            //define 'dictionary' of acceptable parameters
             var acceptableParams = {
                 'activity_type'     : true,
                 'approver'          : true,
@@ -91,7 +94,8 @@ exports.handler = async (event, context, callback) => {
             } catch (error) {
                 error.name = "Query error";
                 error.message = `${invalidParam} is not a valid search parameter.`;
-                console.log(`Attempt to use an invalid search parameter, '${invalidParam}'`);
+                console.
+                console.error(`Error caught! Attempted to use an invalid search parameter, '${invalidParam}'`);
                 callback(null, error);
                 break;
             }
@@ -126,6 +130,7 @@ exports.handler = async (event, context, callback) => {
             
             try {
                 const items = await docClient.scan(params).promise();
+                console.log("Data received from DynamoDB");
                 callback(null, items);
                 break;
             } catch (error) {
@@ -136,7 +141,12 @@ exports.handler = async (event, context, callback) => {
             
         //GET request on '/ping' returns affirmative message if the API is working    
         case '/ping':
-            let pingMessage = {message: "Ping! It's working!"};
+            console.log("Hit the '/ping' route");
+            let pingMessage = {
+                message: "Ping! It's working!",
+                event
+            };
+            console.log("Returning ping message...");
             callback(null, pingMessage);
             break;
         
