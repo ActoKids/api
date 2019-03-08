@@ -78,7 +78,8 @@
             "minimum": 0.00
         }, 
         "picture_url": {
-            "type": "string"
+            "type": "string",
+            "default": "none"
         },
         "min_age": {
             "type": "number",
@@ -97,6 +98,10 @@
             },
             "uniqueItems": true
         },
+        "inclusive": {
+            "type": "boolean",
+            "default": true
+        },
         "event_status": {
             "type": "string",
             "enum": ["Pending", "Approved", "Cancelled", "Declined"],
@@ -104,7 +109,8 @@
         },
         "approver": {
             "type": "string",
-            "maxLength": 30
+            "maxLength": 30,
+            "default": "none"
         },
         "created_timestamp": {
             "type": "string",
