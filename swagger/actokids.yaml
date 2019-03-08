@@ -438,6 +438,7 @@ definitions:
         #nullable: true
         format: url
         description: Event picture
+        default: none
       min_age:
         type: number
         format: int32
