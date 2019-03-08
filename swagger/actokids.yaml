@@ -55,7 +55,7 @@ paths:
               $ref: '#/definitions/Event'
         '500':
           description: Failure to connect or save to the database
-  '/events/{eventID}':
+  '/events/{event_id}':
     get:
       tags:
         - Events
@@ -65,7 +65,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: eventID
+        - name: event_id
           in: path
           description: ID of event to return
           required: true
@@ -92,7 +92,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: eventID
+        - name: event_id
           in: path
           description: ID of event to be updated
           required: true
@@ -224,7 +224,7 @@ paths:
       consumes:
         - application/json
       parameters:
-        - name: eventID
+        - name: event_id
           in: path
           description: Event ID to delete
           required: true
@@ -311,6 +311,11 @@ paths:
           type: array
           items:
             type: string
+        - name: inclusive
+          in: query
+          description: Filter by inclusivity
+          required: false
+          type: boolean
         - name: approved
           in: query
           description: Filter by status of event
@@ -457,6 +462,10 @@ definitions:
           - Vision
           - Mobility
           - Hearing
+      inclusive:
+        type: boolean
+        description: If the event is inclusive or not
+        default: true
       status:
         type: string
         description: Status of the event
@@ -471,6 +480,7 @@ definitions:
         maxLength: 30
         pattern: '/([a-zA-Z])+/'
         description: Name of the approver
+        default: none
       created_timestamp:
         type: string
         format: date-time
