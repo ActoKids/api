@@ -467,7 +467,7 @@ definitions:
         type: boolean
         description: If the event is inclusive or not
         default: true
-      status:
+      event_status:
         type: string
         description: Status of the event
         enum:
