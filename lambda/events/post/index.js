@@ -3,7 +3,7 @@ console.log('Starting ActoKids Lambda function');
 
 const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-east-2'});
-const uuid = require('uuid');
+const uuid = require('uuid/v4');
 
 //Variable needed to pass the timestamp for when the event is created in DynamoDB
 var now = (new Date()).toJSON();
@@ -18,9 +18,12 @@ console.log("Required items loaded successfully. Beginning main portion of Lambd
     handler is the function that AWS Lambda invokes when triggered by API Gateway. handler runs in response to every trigger,
     but code outside of handler (if any) runs only when the execution environment is created.
 */
-exports.handler = function(event, context, callback) {
-    
+
+exports.handler = async (event, context, callback) => {
     console.log("Entered handler function; checking switch cases.");
+    
+    //initialize params
+    var params;
     
     let httpMethod = event.context['http-method'];
     
@@ -30,43 +33,6 @@ exports.handler = function(event, context, callback) {
     //Different operations needed depending on HTTP method called in API Gateway.
     //Switch statement is the most concise way to handle this.
     switch(httpMethod) {
-        
-        //GET request - currently implemented for a specific table item. It works, but needs refinement
-        //as this endpoint it should be pulling the entire list of event objects
-        case 'GET':
-            
-            //CloudWatch log - confirms http method request equal to switch case and the time it was requested.
-            console.log(`GET case entered; ${httpMethod} was requested at ${now}.`);
-            
-            var params = {
-                //TableName reference required for DynamoDB to know which table to get data from
-                TableName: 'ak-api-test-dynamo',
-                Key: {
-                    "event_id": "ffc3e039-3766-4cb5-a046-a6f5f88a6ab8"
-                }
-            };
-    
-            //DynamoDB doc client .get requires params of what to search in Dynamo, and callback function
-            //with what to return - error vs data
-            docClient.get(params, function(error, data) {
-                
-                if(error) {
-                    //CloudWatch log - an error occurred; log the error
-                    console.error(`Error getting data from DynamoDB: ${error}`);
-                    
-                    callback(error, null);
-                } else {
-                    //CloudWatch log - check to see the data being returned is accurate
-                    console.log(`GET data returned: ${data}`);
-                    
-                    callback(null, data);
-                }
-            });
-            
-            //CloudWatch log - GET request successfully executed; Log success message and exit switch
-            console.log("GET case executed.");
-            
-            break;
         
         //POST request - currently implemented to pass API Gateway model object through to DynamoDB
         //Possible refinements required; especially when we begin to merge code from all team members
@@ -114,8 +80,8 @@ exports.handler = function(event, context, callback) {
             console.log(`created_timestamp updated: ${event['body-json'].created_timestamp}`);
             
             //DynamoDB needs to know which table to update and how the data is structured
-            var params = {
-                TableName: 'ak-api-test-dynamo',
+            params = {
+                TableName: 'ak-api-dynamo',
                 Item: event['body-json']
             };
             
@@ -132,10 +98,9 @@ exports.handler = function(event, context, callback) {
                     callback(null, data);
                 }
             });
-            
+
             //CloudWatch log - POST request successfully executed; Log success message and build response
             console.log("POST case executed.");
-            
             
             //Only item required in the response is the new event_id; No need to return the whole object
             let response = {
@@ -147,7 +112,37 @@ exports.handler = function(event, context, callback) {
             
             callback(null, response);
             break;
+        
+        //GET request returns every item in the specified DynamoDB table
+        case 'GET':
             
+            //CloudWatch log - confirms http method request equal to switch case and the time it was requested.
+            console.log(`GET case entered: ${httpMethod} was requested at ${now}`);
+            
+            params = {
+                //TableName reference required for DynamoDB to know which table to get data from
+                TableName: 'ak-api-dynamo',
+            };
+            
+            console.log("Trying to get all data from DynamoDB");
+            
+            //Try to get all event objects in DynamoDB via scan. 
+            try {
+                const items = await docClient.scan(params).promise();
+                console.log("Retrieved all data from DynamoDB");
+                callback(null, items);
+                
+                //CloudWatch log - GET request successfully executed; Log success message and exit switch
+                console.log("GET case executed.");
+                break;
+            } catch (error) {
+                console.log(`Error retrieving data from DynamoDB: ${error}`);
+                callback(error, null);
+                //CloudWatch log - GET request failed to execute; Log failure message and exit switch
+                console.log("GET case failed to execute properly.");
+                break;
+            }
+        
         default:
             /*
                 No DELETE or PUT HTTP methods within this switch statement. 
