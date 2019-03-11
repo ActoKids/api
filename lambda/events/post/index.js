@@ -113,38 +113,11 @@ exports.handler = async (event, context, callback) => {
             callback(null, response);
             break;
         
-        //GET request returns every item in the specified DynamoDB table
-        case 'GET':
-            
-            //CloudWatch log - confirms http method request equal to switch case and the time it was requested.
-            console.log(`GET case entered: ${httpMethod} was requested at ${now}`);
-            
-            params = {
-                //TableName reference required for DynamoDB to know which table to get data from
-                TableName: 'ak-api-dynamo',
-            };
-            
-            console.log("Trying to get all data from DynamoDB");
-            
-            //Try to get all event objects in DynamoDB via scan. 
-            try {
-                const items = await docClient.scan(params).promise();
-                console.log("Retrieved all data from DynamoDB");
-                callback(null, items);
-                
-                //CloudWatch log - GET request successfully executed; Log success message and exit switch
-                console.log("GET case executed.");
-                break;
-            } catch (error) {
-                console.log(`Error retrieving data from DynamoDB: ${error}`);
-                callback(error, null);
-                //CloudWatch log - GET request failed to execute; Log failure message and exit switch
-                console.log("GET case failed to execute properly.");
-                break;
-            }
-        
         default:
             /*
+                No GET within this switch statement - outside task scope.
+                Reference Zak's Lambda function for GET.
+
                 No DELETE or PUT HTTP methods within this switch statement. 
                 This Lambda function is only valid for the .../events endpoint; DELETE/PUT require
                 an event_id and are valid on the endpoint .../events/{event_id}.
