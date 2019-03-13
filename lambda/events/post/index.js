@@ -2,7 +2,7 @@ console.log('Starting ActoKids Lambda function');
 //CloudWatch log - This log tells us the Lambda function successfully triggered.
 
 const AWS = require('aws-sdk');
-const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-east-2'});
+const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2'});
 const uuid = require('uuid/v4');
 
 //Variable needed to pass the timestamp for when the event is created in DynamoDB
@@ -21,7 +21,7 @@ console.log("Required items loaded successfully. Beginning main portion of Lambd
 
 exports.handler = async (event, context, callback) => {
     console.log("Entered handler function; checking switch cases.");
-    
+
     //initialize params
     var params;
     
@@ -81,7 +81,7 @@ exports.handler = async (event, context, callback) => {
             
             //DynamoDB needs to know which table to update and how the data is structured
             params = {
-                TableName: 'ak-api-dynamo',
+                TableName: 'ak-prod-events-dynamo',
                 Item: event['body-json']
             };
             
@@ -98,7 +98,7 @@ exports.handler = async (event, context, callback) => {
                     callback(null, data);
                 }
             });
-
+            
             //CloudWatch log - POST request successfully executed; Log success message and build response
             console.log("POST case executed.");
             
@@ -112,17 +112,16 @@ exports.handler = async (event, context, callback) => {
             
             callback(null, response);
             break;
-        
+
         default:
             /*
-                No GET within this switch statement - outside task scope.
-                Reference Zak's Lambda function for GET.
-
+                No GET method within switch as it is handled by a separate Lambda function.
+            
                 No DELETE or PUT HTTP methods within this switch statement. 
                 This Lambda function is only valid for the .../events endpoint; DELETE/PUT require
                 an event_id and are valid on the endpoint .../events/{event_id}.
                 
-                Therefore any calls other than GET, POST, or OPTIONS (handled by API Gateway) are
+                Therefore any calls other than POST, or OPTIONS (handled by API Gateway) are
                 invalid and should end up here.
             */
             //CloudWatch log - Should not have ended up here; log the invalid request
