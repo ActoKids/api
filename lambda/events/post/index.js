@@ -27,6 +27,12 @@ exports.handler = async (event, context, callback) => {
     
     let httpMethod = event.context['http-method'];
     
+    //Log calling API type and endpoint
+    console.log("API-Endpoint called: " + httpMethod + " " + event.context['resource-path']);
+    
+    //Log calling IP
+    console.log("Calling-IP: " + event.params.header['X-Forwarded-For']);
+    
     //CloudWatch log - Log the event http method requested; can check correct switch statement entered
     console.log(`HTTP method requested: ${httpMethod}`);
     
