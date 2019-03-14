@@ -24,6 +24,12 @@ exports.handler = async (event, context, callback) => {
     //const httpMethod = event.httpMethod;
     const httpMethod = event.context['http-method'];
     
+    //Log calling API type and endpoint
+    console.log("API-Endpoint called: " + httpMethod + " " + event.context['resource-path']);
+    
+    //Log calling IP
+    console.log("Calling-IP: " + event.params.header['X-Forwarded-For']);
+    
     // status response needed for API Gateway to return the correct response
     const response = {
 		statusCode: 200
