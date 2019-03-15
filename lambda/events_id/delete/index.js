@@ -11,7 +11,7 @@ const isUUID = require('is-uuid');
 // it will need to handle PUT requests and GET in later sprints
 exports.handler = async (event, context, callback) => {
     // log for when lambda function starts
-    console.log("ak-api-travis-lambda lambda function started...");
+    console.log("ak-events_id-delete-lambda lambda function started...");
     
     // this stores the input given by the caller, a UUID (uuid v1) for a specific item in the ak-api-travis-dynamodb table
     const ID = event.params.path['event_id'];
@@ -84,6 +84,6 @@ exports.handler = async (event, context, callback) => {
     }
  
    // log for when lambda function ends
-    console.log("ak-api-travis-lambda lambda function ended.");
+    console.log("ak-events_id-delete-lambda lambda function ended.");
 };
 
