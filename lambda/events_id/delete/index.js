@@ -87,3 +87,4 @@ exports.handler = async (event, context, callback) => {
     console.log("ak-events_id-delete-lambda lambda function ended.");
 };
 
+
