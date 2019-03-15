@@ -98,7 +98,7 @@
             },
             "uniqueItems": true
         },
-        "inclusive": {
+        "inclusive_event": {
             "type": "boolean",
             "default": true
         },
