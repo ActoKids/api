@@ -36,8 +36,8 @@ exports.handler = async (event, context, callback) => {
 	};
     
     
-    // validate input parameter as uuid version 1, when fails a 400 response must be given
-    if(!validate(ID, 4)) {
+    // validate input parameter as uuid version 5, when fails a 400 response must be given
+    if(!validate(ID, 5)) {
     	console.log("ERROR: uuid in not uuid/v4");
     	response.statusCode = 400;
 		callback(JSON.stringify(response), null);
