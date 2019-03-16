@@ -1,5 +1,5 @@
 {
-  "name": "events",
+  "name": "delete",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "uuid-validate": "0.0.3"
+    "is-uuid": "^1.0.2"
   }
 }
