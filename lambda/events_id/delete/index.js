@@ -5,13 +5,13 @@ const AWS = require('aws-sdk');
 const documentClient = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2'}); 
 	
 // this package is needed to validate parameters that are uuids
-const validate = require('uuid-validate');
+const isUUID = require('is-uuid');
 
 // lambda function that deletes an ak-api-travis-dynamodb (Events) db item by a given primary key
 // it will need to handle PUT requests and GET in later sprints
 exports.handler = async (event, context, callback) => {
     // log for when lambda function starts
-    console.log("ak-api-travis-lambda lambda function started...");
+    console.log("ak-events_id-delete-lambda lambda function started...");
     
     // this stores the input given by the caller, a UUID (uuid v1) for a specific item in the ak-api-travis-dynamodb table
     const ID = event.params.path['event_id'];
@@ -36,8 +36,8 @@ exports.handler = async (event, context, callback) => {
 	};
     
     
-    // validate input parameter as uuid version 1, when fails a 400 response must be given
-    if(!validate(ID, 4)) {
+    // validate input parameter as uuid version 5, when fails a 400 response must be given
+    if(!isUUID.anyNonNil(ID)) {
     	console.log("ERROR: uuid in not uuid/v4");
     	response.statusCode = 400;
 		callback(JSON.stringify(response), null);
@@ -83,7 +83,7 @@ exports.handler = async (event, context, callback) => {
 	   
     }
  
-   // log for when lambda function ends
-    console.log("ak-api-travis-lambda lambda function ended.");
+    // log for when lambda function ends
+    console.log("ak-events_id-delete-lambda lambda function ended.");
 };
 
