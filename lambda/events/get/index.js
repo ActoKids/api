@@ -27,14 +27,13 @@ exports.handler = async (event, context, callback) => {
    // Log calling API type and endpoint
    console.log("API endpoint called: " + event.context['http-method'] + " " + event.context['resource-path']);
 
-   // Log calling API type and endpoint
+   // Log for the calling IP address
    console.log("Calling from IP: " + event.params.header['X-Forwarded-For']);
   
    // parameters for DynamoDB request.
    // ProjectionExpression is for the request attributes of events in table
    const params = {
        TableName: 'ak-prod-events-dynamo',
-       ProjectionExpression: "event_id, user_name, activity_type, description, org_name, location_name, location_address, contact_name, contact_phone, contact_email, start_date_time, end_date_time, frequency, cost, picture_url, min_age, max_age, disability_types, event_status, approver, created_timestamp, event_link, event_name"
    }//end of params
 
   

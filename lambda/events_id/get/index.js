@@ -72,8 +72,6 @@ exports.handler = async (event, context, callback) => {
             ExpressionAttributeValues: {
                 ":event_id": eventId
             },
-            // ProjectionExpression is for the request attributes of events in table 
-            ProjectionExpression: "event_id, user_name, activity_type, description, organization_name, location_name, location_address, contact_name, contact_phone, contact_email, start_date_time, end_date_time, frequency, cost, picture_url, min_age, max_age, disability_types, show_status, approver"
         }//end of params
     
         try {
