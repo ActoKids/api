@@ -20,9 +20,6 @@ exports.handler = async (event, context, callback) => {
     // Console log to CloudWatch for Lambda function start
     console.log("ActoKids GET event by event_id function started.");
     
-    // Insantiate new instance of DynamoDB object with specified api version. 
-    const db = new AWS.DynamoDB({ apiVersion: '2012-10-08'});
-    
     // DynamoDB.DocumentClient is a helper class for accessing DynamoDB with Javascript
     const documentClient = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2'});
 
@@ -51,9 +48,6 @@ exports.handler = async (event, context, callback) => {
     // Create response to return with statusCode, headers, and responseBody. 
     const response = {
         statusCode: statusCode,
-        headers : {
-            "Access-Control-Allow-Origin" : "*"
-        },
         body: body
     };
     
