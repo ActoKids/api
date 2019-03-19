@@ -16,7 +16,7 @@ jobs:
     	handler_name: "handler"
     	runtime: "nodejs8.10"
     	on:
-      		branch: dev
+      	    branch: dev
   - stage: deploy post function
     script: skip
     before_deploy: cd lambda/events/post
@@ -28,7 +28,7 @@ jobs:
     	handler_name: "handler"
     	runtime: "nodejs8.10"
     	on:
-      		branch: dev
+      	    branch: dev
   - stage: deploy get by id function
     script: skip
     before_deploy: cd lambda/events_id/get
@@ -40,7 +40,7 @@ jobs:
     	handler_name: "handler"
     	runtime: "nodejs8.10"
     	on:
-      		branch: dev
+      	    branch: dev
   - stage: deploy post by id function
     script: skip
     before_deploy: cd lambda/events_id/post
@@ -52,7 +52,7 @@ jobs:
     	handler_name: "handler"
     	runtime: "nodejs8.10"
     	on:
-      		branch: dev
+       	    branch: dev
   - stage: deploy delete by id function
     script: skip
     before_deploy: cd lambda/events_id/delete
@@ -64,4 +64,4 @@ jobs:
     	handler_name: "handler"
     	runtime: "nodejs8.10"
     	on:
-      		branch: dev
+            branch: dev
