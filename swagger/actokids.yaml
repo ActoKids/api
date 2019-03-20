@@ -199,7 +199,12 @@ paths:
           type: array
           items:
             type: string
-        - name: status
+        - name: inclusive_event
+          in: formData
+          required: false
+          type: boolean
+          description: Inclusive event or not
+        - name: event_status
           in: formData
           description: Updated status of event
           required: false
@@ -311,7 +316,7 @@ paths:
           type: array
           items:
             type: string
-        - name: inclusive
+        - name: inclusive_event
           in: query
           description: Filter by inclusivity
           required: false
@@ -463,7 +468,7 @@ definitions:
           - Vision
           - Mobility
           - Hearing
-      inclusive:
+      inclusive_event:
         type: boolean
         description: If the event is inclusive or not
         default: true
