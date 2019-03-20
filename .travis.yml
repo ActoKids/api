@@ -35,6 +35,7 @@ jobs:
     deploy:     
         provider: lambda
         role: $AWS_LAMBDA_ROLE_ARN_PROD
+        zip: get.zip
         function_name: "ak-events_id-get-lambda"
         region: "us-west-2"
         handler_name: "handler"
