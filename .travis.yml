@@ -47,7 +47,7 @@ jobs:
     deploy:     
         provider: lambda
         role: $AWS_LAMBDA_ROLE_ARN_PROD
-	zip: put.zip
+        zip: put.zip
         function_name: "ak-events_id-put-lambda"
         region: "us-west-2"
         handler_name: "handler"
@@ -60,7 +60,7 @@ jobs:
     deploy:     
         provider: lambda
         role: $AWS_LAMBDA_ROLE_ARN_PROD
-	zip: delete.zip
+        zip: delete.zip
         function_name: "ak-events_id-delete-lambda"
         region: "us-west-2"
         handler_name: "handler"
