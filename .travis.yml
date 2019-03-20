@@ -16,19 +16,19 @@ jobs:
         handler_name: "handler"
         runtime: "nodejs8.10"
         on:
-        branch: dev
+            branch: dev
   - stage: deploy post function
     script: skip
     before_deploy: cd lambda/events/post
     deploy:     
         provider: lambda
         role: $AWS_LAMBDA_ROLE_ARN_PROD
-        function_name: "ak-events-post-gateway"
+        function_name: "ak-events-post-lambda"
         region: "us-west-2"
         handler_name: "handler"
         runtime: "nodejs8.10"
         on:
-        branch: dev
+            branch: dev
   - stage: deploy get by id function
     script: skip
     before_deploy: cd lambda/events_id/get
@@ -40,19 +40,19 @@ jobs:
         handler_name: "handler"
         runtime: "nodejs8.10"
         on:
-        branch: dev
-  - stage: deploy post by id function
+            branch: dev
+  - stage: deploy put by id function
     script: skip
-    before_deploy: cd lambda/events_id/post
+    before_deploy: cd lambda/events_id/put
     deploy:     
         provider: lambda
         role: $AWS_LAMBDA_ROLE_ARN_PROD
-        function_name: "ak-events_id-post-lambda"
+        function_name: "ak-events_id-put-lambda"
         region: "us-west-2"
         handler_name: "handler"
         runtime: "nodejs8.10"
         on:
-        branch: dev
+            branch: dev
   - stage: deploy delete by id function
     script: skip
     before_deploy: cd lambda/events_id/delete
@@ -64,4 +64,4 @@ jobs:
         handler_name: "handler"
         runtime: "nodejs8.10"
         on:
-        branch: dev
+            branch: dev
