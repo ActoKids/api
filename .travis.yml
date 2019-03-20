@@ -16,7 +16,7 @@ jobs:
         handler_name: "handler"
         runtime: "nodejs8.10"
         on:
-            branch: travisForDevEnv
+            branch: dev
   - stage: deploy post function
     script: skip
     before_deploy: cd lambda/events/post
