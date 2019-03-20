@@ -19,6 +19,12 @@ console.log("Required items loaded successfully. Beginning main portion of Lambd
     but code outside of handler (if any) runs only when the execution environment is created.
 */
 
+/*
+    This is a test of the TravisCI pipeline. This is only a test. Please note that only this comment has been added
+    and no functionality has changed. Everything should still be working as intended if TravisCI has properly pushed 
+    the code to the correct Lambda function.
+*/
+
 exports.handler = async (event, context, callback) => {
     console.log("Entered handler function; checking switch cases.");
 
