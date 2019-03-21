@@ -1,0 +1,70 @@
+language: node_js
+node_js:
+  - "8.10"
+install: true
+script: skip
+jobs:
+  include:
+  - stage: deploy get function
+    script: skip
+    before_deploy: cd lambda/events/get
+    deploy:
+        provider: lambda
+        role: $AWS_LAMBDA_PROD_ROLE
+        function_name: "ak-events-get-lambda"
+        region: "us-west-2"
+        handler_name: "handler"
+        runtime: "nodejs8.10"
+        on:
+            branch: prod
+  - stage: deploy post function
+    script: skip
+    before_deploy: cd lambda/events/post
+    deploy:     
+        provider: lambda
+        role: $AWS_LAMBDA_PROD_ROLE
+        function_name: "ak-events-post-lambda"
+        region: "us-west-2"
+        handler_name: "handler"
+        runtime: "nodejs8.10"
+        on:
+            branch: prod
+  - stage: deploy get by id function
+    script: skip
+    before_deploy: cd lambda/events_id/get
+    deploy:     
+        provider: lambda
+        role: $AWS_LAMBDA_PROD_ROLE
+        zip: get.zip
+        function_name: "ak-events_id-get-lambda"
+        region: "us-west-2"
+        handler_name: "handler"
+        runtime: "nodejs8.10"
+        on:
+            branch: prod
+  - stage: deploy put by id function
+    script: skip
+    before_deploy: cd lambda/events_id/put
+    deploy:     
+        provider: lambda
+        role: $AWS_LAMBDA_PROD_ROLE
+        zip: put.zip
+        function_name: "ak-events_id-put-lambda"
+        region: "us-west-2"
+        handler_name: "handler"
+        runtime: "nodejs8.10"
+        on:
+            branch: prod
+  - stage: deploy delete by id function
+    script: skip
+    before_deploy: cd lambda/events_id/delete
+    deploy:     
+        provider: lambda
+        role: $AWS_LAMBDA_PROD_ROLE
+        zip: delete.zip
+        function_name: "ak-events_id-delete-lambda"
+        region: "us-west-2"
+        handler_name: "handler"
+        runtime: "nodejs8.10"
+        on:
+            branch: prod

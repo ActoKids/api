@@ -1,0 +1,121 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "EventModel",
+    "type": "object",
+    "required": [
+        "user_name",
+        "event_name", 
+        "description", 
+        "org_name",
+        "location_address",
+        "start_date_time",
+        "cost"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "default": "temp"
+        },
+        "user_name": { 
+            "type": "string",
+            "maxLength": 30
+        },
+        "event_name": {
+            "type": "string",
+            "maxLength": 50
+        },
+        "event_link": {
+            "type": "string"
+        },
+        "activity_type": {
+            "type": "string",
+            "enum": ["Outdoors & Nature", "Music", "Art", "Museum", "Sports", "Zoo", "Camp", "Other"]
+        },
+        "description": { 
+            "type": "string",
+            "maxLength": 1000
+        },
+        "org_name": {
+            "type": "string",
+            "maxLength": 50
+        },
+        "location_name": {
+            "type": "string",
+            "maxLength": 50
+        },
+        "location_address": {
+            "type": "string",
+            "maxLength": 150
+        },
+        "contact_name": {
+            "type": "string",
+            "maxLength": 30
+        },
+        "contact_phone": {
+            "type": "string",
+            "maxLength": 12
+        },
+        "contact_email": {
+            "type": "string",
+            "maxLength": 30
+        },
+        "start_date_time": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "end_date_time": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "frequency": {
+            "type": "string",
+            "enum": ["Once", "Daily", "Weekly", "Monthly"],
+            "default": "Once"
+        },
+        "cost": {
+            "type": "number",
+            "format": "double",
+            "minimum": 0.00
+        }, 
+        "picture_url": {
+            "type": "string",
+            "default": "none"
+        },
+        "min_age": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+        },
+        "max_age": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+        },
+        "disability_types": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "uniqueItems": true
+        },
+        "inclusive_event": {
+            "type": "boolean",
+            "default": true
+        },
+        "event_status": {
+            "type": "string",
+            "enum": ["Pending", "Approved", "Cancelled", "Declined"],
+            "default": "Pending"
+        },
+        "approver": {
+            "type": "string",
+            "maxLength": 30,
+            "default": "none"
+        },
+        "created_timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "default": "2019-02-10T12:00:00.000Z"
+        }
+    }
+}

@@ -1,0 +1,503 @@
+swagger: '2.0'
+info:
+  title: ActoKids
+  description: This Swagger file describes the ActoKids API for accessible events.
+  contact:
+    name: API Team
+    email: apiteam@actokids.org
+    url: 'https://actokids.org'
+  version: 1.0.0
+host: api.actokids.org
+basePath: /v1
+tags:
+  - name: Events
+    description: Event details
+schemes:
+  - https
+paths:
+  /events:
+    post:
+      tags:
+        - Events
+      summary: Create a new event
+      description: Creates new event
+      operationId: createEvent
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Created event object
+          required: true
+          schema:
+            $ref: '#/definitions/Event'
+      responses:
+        '201':
+          description: Event Created
+        '400':
+          description: Invalid Event Syntax
+        '500':
+          description: Failure to connect or save to the database
+    get:
+      tags:
+        - Events
+      summary: Retrieve list of all events
+      description: ''
+      operationId: getEvents
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully Retrieved Events
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Event'
+        '500':
+          description: Failure to connect or save to the database
+  '/events/{event_id}':
+    get:
+      tags:
+        - Events
+      summary: Find event by ID
+      description: Returns a single event found by ID
+      operationId: getEventById
+      produces:
+        - application/json
+      parameters:
+        - name: event_id
+          in: path
+          description: ID of event to return
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Event'
+        '400':
+          description: Invalid Event ID
+        '404':
+          description: Event not found
+        '500':
+          description: Failure to connect or save to the database
+    put:
+      tags:
+        - Events
+      summary: Update Event
+      description: Update a specific event found by ID
+      operationId: updateEventById
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: event_id
+          in: path
+          description: ID of event to be updated
+          required: true
+          type: string
+        - name: event_name
+          in: formData
+          description: Updated the event name
+          required: false
+          type: string
+        - name: event_link
+          in: formData
+          description: Updated the event link
+          type: string
+          required: false
+        - name: activity_type
+          in: formData
+          description: Updated the type of activity
+          required: false
+          type: string
+        - name: description
+          in: formData
+          description: Updated the event description
+          required: false
+          type: string
+          format: string
+        - name: org_name
+          in: formData
+          description: Updated name of the organization hosting event
+          required: false
+          type: string
+        - name: location_name
+          in: formData
+          description: Updated location name of event
+          required: false
+          type: string
+        - name: location_address
+          in: formData
+          description: Updated location address of event
+          required: false
+          type: string
+          format: address
+        - name: contact_name
+          in: formData
+          description: Updated contact name of event
+          required: false
+          type: string
+        - name: contact_phone
+          in: formData
+          description: Updated contact phone number of event
+          required: false
+          type: string
+          format: phone
+        - name: contact_email
+          in: formData
+          description: Updated contact email of event
+          required: false
+          type: string
+          format: email
+        - name: start_date_time
+          in: formData
+          description: Updated date and start time of event
+          required: false
+          type: string
+          format: date-time
+        - name: end_date_time
+          in: formData
+          description: Updated end date and time of event
+          required: false
+          type: string
+          format: date-time
+        - name: frequency
+          in: formData
+          description: Updated frequency of event
+          required: false
+          type: string
+        - name: cost
+          in: formData
+          description: Updated cost of event
+          required: false
+          type: number
+          format: double
+        - name: picture_url
+          in: formData
+          description: Updated picture of event
+          required: false
+          type: string
+          format: url
+        - name: min_age
+          in: formData
+          description: Updated minimum age of event
+          required: false
+          type: number
+          format: int32
+        - name: max_age
+          in: formData
+          description: Updated maximum age of event
+          required: false
+          type: number
+          format: int32
+        - name: disability_types
+          in: formData
+          description: Updated disability type tags of event
+          required: false
+          type: array
+          items:
+            type: string
+        - name: inclusive_event
+          in: formData
+          required: false
+          type: boolean
+          description: Inclusive event or not
+        - name: event_status
+          in: formData
+          description: Updated status of event
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Event'
+        '400':
+          description: Invalid Event ID
+        '404':
+          description: Event not found or invalid input in a form field
+        '500':
+          description: Failure to connect or save to the database
+    delete:
+      tags:
+        - Events
+      summary: Deletes an event
+      description: Deletes event specified by ID
+      operationId: deleteEvent
+      consumes:
+        - application/json
+      parameters:
+        - name: event_id
+          in: path
+          description: Event ID to delete
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully deleted event
+        '400':
+          description: Invalid event ID
+        '404':
+          description: event not found
+        '500':
+          description: Failure to connect or save to the database
+  /events/eventsFilter:
+    get:
+      tags:
+        - Events
+      summary: Find events via filter
+      description: Filter the event list returned based from most any of the event object
+        properties
+      operationId: getFilteredEvents
+      produces:
+        - application/json
+      parameters:
+        - name: event_name
+          in: query
+          description: Filter by event name
+          required: false
+          type: string
+        - name: activity_type
+          in: query
+          description: Filter by type of activity
+          required: false
+          type: string
+        - name: org_name
+          in: query
+          description: Filter by name of the organization hosting event
+          required: false
+          type: string
+        - name: location_name
+          in: query
+          description: Filter by location name of event
+          required: false
+          type: string
+        - name: location_address
+          in: query
+          description: Filter by location address of event
+          required: false
+          type: string
+          format: address
+        - name: start_date_time
+          in: query
+          description: Filter by date and start time of event
+          required: false
+          type: string
+          format: date-time
+        - name: frequency
+          in: query
+          description: Filter by frequency of event
+          required: false
+          type: string
+        - name: cost
+          in: query
+          description: Filter by cost of event
+          required: false
+          type: number
+          format: double
+        - name: min_age
+          in: query
+          description: Filter by minimum age of event
+          required: false
+          type: number
+          format: int32
+        - name: max_age
+          in: query
+          description: Filter by maximum age of event
+          required: false
+          type: number
+          format: int32
+        - name: disability_types
+          in: query
+          description: Filter by disability type tags of event
+          required: false
+          type: array
+          items:
+            type: string
+        - name: inclusive_event
+          in: query
+          description: Filter by inclusivity
+          required: false
+          type: boolean
+        - name: approved
+          in: query
+          description: Filter by status of event
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Event'
+        '400':
+          description: Invalid filter value(s)
+        '500':
+          description: Failure to connect or save to the database
+definitions:
+  Event:
+    type: object
+    properties:
+      uuid:
+        type: string
+      user_name:
+        type: string
+        maxLength: 30
+        pattern: '/([a-zA-Z])+/'
+        description: Name of the user adding the event
+        example: ShadowSealsAdmin
+      event_name:
+        type: string
+        maxLength: 50
+        pattern: '/([\x20-\x7E])+/'
+        description: Name of the event taking place
+        example: SWIM-A-THON
+      event_link:
+        type: string
+        format: url
+        description: Website link for the event
+        example: www.actokids.org
+      activity_type:
+        type: string
+        description: Type of activity
+        enum:
+          - Outdoors & Nature
+          - Music
+          - Art
+          - Museum
+          - Sports
+          - Zoo
+          - Camp
+          - Other
+      description:
+        type: string
+        maxLength: 1000
+        description: Long description of the event
+      org_name:
+        type: string
+        maxLength: 50
+        pattern: '/([\x20-\x7E])+/'
+        description: Name of the organization holding the event
+        example: Shadow Seals
+      location_name:
+        type: string
+        maxLength: 50
+        pattern: '/([\x20-\x7E])+/'
+        description: Name of the event location
+        example: Hazen High School Pool
+      location_address:
+        type: string
+        format: address
+        maxLength: 150
+        pattern: '/([\x20-\x7E])+/'
+        description: 'Street address, City, State, Zip for event'
+        example: '1101 Hoquiam Ave NE, Renton, WA, 98059'
+      contact_name:
+        type: string
+        maxLength: 30
+        pattern: '/([a-zA-Z])+/'
+        description: Name of contact for event
+      contact_phone:
+        type: string
+        format: phone
+        maxLength: 12
+        pattern: '^\d{3}-\d{3}-\d{4}$'
+        description: Contact phone number for event
+        example: 425-204-4230
+      contact_email:
+        type: string
+        format: email
+        maxLength: 30
+        pattern: '/([\w\d\@\-\.])+/'
+        description: Contact email address for event
+      start_date_time:
+        type: string
+        format: date-time
+        description: Event date and start time
+        example: '2019-03-10 15:00:00'
+      end_date_time:
+        type: string
+        format: date-time
+        description: Event end date and time
+        example: '2019-03-10 17:45:00'
+      frequency:
+        type: string
+        description: How often the event occurs
+        enum:
+          - Once
+          - Daily
+          - Weekly
+          - Monthly
+        default: Once
+      cost:
+        type: number
+        format: double
+        minimum: 0.00
+        description: Cost of the event
+        example: 10.00
+      picture_url:
+        type: string
+        #nullable: true
+        format: url
+        description: Event picture
+        default: none
+      min_age:
+        type: number
+        format: int32
+        minimum: 0
+        maximum: 120
+        description: Minimum age to participate in event
+      max_age:
+        type: number
+        format: int32
+        minimum: 0
+        maximum: 120
+        description: Maximum age to participate in event
+      disability_types:
+        type: array
+        items:
+          type: string
+        description: List of disability types
+        uniqueItems: true
+        example:
+          - Cognitive
+          - Sensory
+          - Vision
+          - Mobility
+          - Hearing
+      inclusive_event:
+        type: boolean
+        description: If the event is inclusive or not
+        default: true
+      event_status:
+        type: string
+        description: Status of the event
+        enum:
+          - Pending
+          - Approved
+          - Cancelled
+          - Declined
+        default: Pending
+      approver:
+        type: string
+        maxLength: 30
+        pattern: '/([a-zA-Z])+/'
+        description: Name of the approver
+        default: none
+      created_timestamp:
+        type: string
+        format: date-time
+        description: blank or date-time when event was created
+    xml:
+      name: Event
+    required:
+      - user_name
+      - event_name
+      - description
+      - org_name
+      - location_address
+      - start_date_time
+      - cost
