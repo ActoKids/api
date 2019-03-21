@@ -97,34 +97,44 @@ exports.handler = async (event, context, callback) => {
                 Item: event['body-json']
             };
             
-            //DynamoDB doc client .put requires params of which table to use in Dynamo, and callback function
-            //with what to return - error vs data. In .put's case data returned is {}. HTTP response set manually.
-            docClient.put(params, function(error, data) {
-                
-                if(error) {
-                    //CloudWatch log - an error occurred; log the error
-                    console.error(`Error posting data to DynamoDB: ${error}`);
+            try {
+                //DynamoDB doc client .put requires params of which table to use in Dynamo, and callback function
+                //with what to return - error vs data. In .put's case data returned is {}. HTTP response set manually.
+                docClient.put(params, function(error, data) {
                     
-                    callback(error, null);
-                } else {
-                    callback(null, data);
-                }
-            });
+                    if(error) {
+                        //CloudWatch log - an error occurred; log the error
+                        console.error(`Error posting data to DynamoDB: ${error}`);
+                        
+                        callback(error, null);
+                    } else {
+                        callback(null, data);
+                    }
+                });
+                
+                //CloudWatch log - POST request successfully executed; Log success message and build response
+                console.log("POST case executed.");
+                
+                //Only item required in the response is the new event_id; No need to return the whole object
+                let response = {
+                    event_id: nextId
+                };
+                
+                //CloudWatch log - verify response set before callback exits POST case.
+                console.log(`Response: ${response.event_id}`);
+                
+                callback(null, response);
+                break;
+            } catch(error) {
+                response.body = 'Failure to connect or retrieve from the database';
+                response.statusCode = 500;
             
-            //CloudWatch log - POST request successfully executed; Log success message and build response
-            console.log("POST case executed.");
-            
-            //Only item required in the response is the new event_id; No need to return the whole object
-            let response = {
-                event_id: nextId
-            };
-            
-            //CloudWatch log - verify response set before callback exits POST case.
-            console.log(`Response: ${response.event_id}`);
-            
-            callback(null, response);
-            break;
-
+                // Log for error with DynamoDB query
+                console.error("Unsuccessful connection to DynamoDB. Status code: " + statusCode);
+                console.error("Error: " + error);
+                callback(JSON.stringify(response), null)
+                break;
+            }
         default:
             /*
                 No GET method within switch as it is handled by a separate Lambda function.
