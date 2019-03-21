@@ -10,7 +10,7 @@ jobs:
     before_deploy: cd lambda/events/get
     deploy:
         provider: lambda
-        role: "arn:aws:iam::061431082068:role/NSC2019_Lambda-S2-and-Dynamo-Full"
+        role: $AWS_LAMBDA_PROD_ROLE
         function_name: "ak-events-get-lambda"
         region: "us-west-2"
         handler_name: "handler"
@@ -22,7 +22,7 @@ jobs:
     before_deploy: cd lambda/events/post
     deploy:     
         provider: lambda
-        role: "arn:aws:iam::061431082068:role/NSC2019_Lambda-S2-and-Dynamo-Full"
+        role: $AWS_LAMBDA_PROD_ROLE
         function_name: "ak-events-post-lambda"
         region: "us-west-2"
         handler_name: "handler"
@@ -34,7 +34,7 @@ jobs:
     before_deploy: cd lambda/events_id/get
     deploy:     
         provider: lambda
-        role: "arn:aws:iam::061431082068:role/NSC2019_Lambda-S2-and-Dynamo-Full"
+        role: $AWS_LAMBDA_PROD_ROLE
         zip: get.zip
         function_name: "ak-events_id-get-lambda"
         region: "us-west-2"
@@ -47,7 +47,7 @@ jobs:
     before_deploy: cd lambda/events_id/put
     deploy:     
         provider: lambda
-        role: "arn:aws:iam::061431082068:role/NSC2019_Lambda-S2-and-Dynamo-Full"
+        role: $AWS_LAMBDA_PROD_ROLE
         zip: put.zip
         function_name: "ak-events_id-put-lambda"
         region: "us-west-2"
@@ -60,7 +60,7 @@ jobs:
     before_deploy: cd lambda/events_id/delete
     deploy:     
         provider: lambda
-        role: "arn:aws:iam::061431082068:role/NSC2019_Lambda-S2-and-Dynamo-Full"
+        role: $AWS_LAMBDA_PROD_ROLE
         zip: delete.zip
         function_name: "ak-events_id-delete-lambda"
         region: "us-west-2"
